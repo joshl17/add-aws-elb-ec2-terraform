@@ -2,7 +2,7 @@
 variable "region" {
   description = "Infrastructure region"
   type        = string
-  default     = "us-east-2"
+  default     = "eu-west-2"
 }
 #Define IAM User Access Key
 variable "access_key" {
@@ -27,6 +27,6 @@ variable "subnet_cidr_public" {
 
 variable "availability_zone" {
   description = "availability zones for the public subnets"
-  default     = ["us-east-2a", "us-east-2b", "us-east-2c"]
+  default     = ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
   type        = list(any)
 }
