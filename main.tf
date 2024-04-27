@@ -13,7 +13,7 @@ resource "aws_subnet" "public" {
   count             = length(var.subnet_cidr_public)
   vpc_id            = aws_vpc.this.id
   cidr_block        = var.subnet_cidr_public[count.index]
-  availability_zone = var.availability_zone[count.index]
+  availability_zone = "eu-west-2a"
   tags = {
     "Name" = "app-1-public-${count.index + 1}"
   }
