@@ -16,6 +16,7 @@ resource "aws_lb_target_group" "front" {
     unhealthy_threshold = 2
   }
 }
+
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_target_group_attachment
 resource "aws_lb_target_group_attachment" "attach-app1" {
   count            = length(aws_instance.app-server)
@@ -23,6 +24,7 @@ resource "aws_lb_target_group_attachment" "attach-app1" {
   target_id        = element(aws_instance.app-server.*.id, count.index)
   port             = 80
 }
+
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.front.arn
@@ -35,13 +37,11 @@ resource "aws_lb_listener" "front_end" {
   }
 }
 
-#Add ACM cert to LB
+#https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate
 resource "aws_lb_listener_certificate" "lb_cert" {
   listener_arn    = aws_lb_listener.front_end.arn
   certificate_arn = aws_acm_certificate.cert.arn
 }
-
-#Import
 
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 resource "aws_lb" "front" {
@@ -52,8 +52,6 @@ resource "aws_lb" "front" {
   subnets            = [for subnet in aws_subnet.public : subnet.id]
 
   enable_deletion_protection = false
-
-
 
   tags = {
     Environment = "front"
