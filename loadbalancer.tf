@@ -26,8 +26,8 @@ resource "aws_lb_target_group_attachment" "attach-app1" {
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb_listener
 resource "aws_lb_listener" "front_end" {
   load_balancer_arn = aws_lb.front.arn
-  port              = "80"
-  protocol          = "HTTP"
+  port              = "443"
+  protocol          = "HTTPS"
 
   default_action {
     type             = "forward"
