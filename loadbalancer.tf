@@ -34,6 +34,15 @@ resource "aws_lb_listener" "front_end" {
     target_group_arn = aws_lb_target_group.front.arn
   }
 }
+
+#Add ACM cert to LB
+resource "aws_lb_listener_certificate" "lb_cert" {
+  listener_arn    = aws_lb_listener.front_end.arn
+  certificate_arn = aws_acm_certificate.cert.arn
+}
+
+#Import
+
 # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb
 resource "aws_lb" "front" {
   name               = "front"
@@ -43,6 +52,8 @@ resource "aws_lb" "front" {
   subnets            = [for subnet in aws_subnet.public : subnet.id]
 
   enable_deletion_protection = false
+
+
 
   tags = {
     Environment = "front"
